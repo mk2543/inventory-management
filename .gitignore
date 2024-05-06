@@ -41,3 +41,5 @@ out/
 
 ### OSX
 .DS_Store
+
+/src/generated

@@ -1,5 +1,6 @@
-package com.gmail.mk2543.inventory
+package com.gmail.mk2543.inventory.testhelpers
 
+import com.gmail.mk2543.inventory.WarehouseApplication
 import org.springframework.boot.fromApplication
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection

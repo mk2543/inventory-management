@@ -1,3 +1,29 @@
 spring:
   application:
     name: inventory-system-demo
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  datasource:
+    url: jdbc:postgresql://localhost:5432/warehouse
+    username: testuser
+    password: secret
+  jooq:
+    render-name-style: LOWER
+    sql-dialect: POSTGRES
+  flyway:
+    locations: classpath:db/migration
+
+logging:
+  level:
+    org.jooq: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: 'prometheus'
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
