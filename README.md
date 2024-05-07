@@ -25,19 +25,31 @@ That also meant that I made some decisions that go against the assigment specifi
     docker-compose -f compose.yaml up -d
     ``` 
 
+`-d` flag runs the containers in the background. You can shut them down with `docker-compose down`. Postgres has a
+volume mounted, so the data will persist between runs.
+
 2. Run the application:
     ```shell 
    ./gradlew bootRun
    ```
-3. Confirm that application is up
 
-http://localhost:8080/actuator/health
+This starts generates JOOQ classes, compiles everything, runs unit and integration tests and finally starts the main
+method in `WarehouseApplication`
 
-4. Check SwaggerUI
+3. Check SwaggerUI
 
 http://localhost:8080/swagger-ui/index.html
 
 Or OpenAPI Spec: http://localhost:8080/v3/api-docs
+
+
+--- 
+Alternatively, there's also `TestWarehouseApplication` in the integration tests sources, which starts the application
+with
+TestContainers version of Postgres, you can start it from your IDE. This is useful if you want to quickly run the
+application in a clean state for debug
+purposes, without
+cleaning up the docker volume used by the main Postgres.
 
 # My assumptions about the business requirements
 
@@ -141,8 +153,8 @@ I chose Flyway to manage the database schema because it's simple and easy to use
   security? Or maybe it would be deployed on a single server, behind a reverse proxy? All of those would require
   different security measures.
 - It's also missing any kind of rate limiting, which would be necessary to prevent abuse.
-- It doesn't have any logging yet. In a real system, we would probably want to expose the logs in a format that can be
-  consumed by systems like ELK.
+- In a real system, we would probably want to expose the logs in a format that can be
+  consumed by systems like ELK. We would also not log every DB query, this was added only for demo purposes.
 - We could also consider adding distributed tracing.
 
 ## Future business improvements
@@ -165,5 +177,6 @@ I chose Flyway to manage the database schema because it's simple and easy to use
 - Clean up build.gradle.kts, it's a mess ;-)
 - JOOQ is using H2 in the Gradle build. We should switch over to Postgres (TestContainers) for consistency.
 - Add more tests, especially for the repositories
+- Create separate configs for different environments (dev, test, prod). Dockerize the app and run it in a container.
 - Consider if we need some mapping library for the domain <-> DTOs conversions. Right now the classes are simple, so I
   didn't see a need to add it yet

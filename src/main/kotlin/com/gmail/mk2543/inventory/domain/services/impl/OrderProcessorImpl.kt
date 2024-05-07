@@ -5,7 +5,6 @@ import com.gmail.mk2543.inventory.domain.services.ArticleInventoryService
 import com.gmail.mk2543.inventory.domain.services.OrderProcessor
 import com.gmail.mk2543.inventory.repositories.ProductsRepository
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Transactional
 
 @Service
@@ -14,7 +13,7 @@ class OrderProcessorImpl(
     private val articleInventoryService: ArticleInventoryService,
 ) : OrderProcessor {
 
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    @Transactional
     override fun handlePurchase(warehouseId: WarehouseId, orderLines: Set<OrderLine>): Map<ArticleId, Int>{
         val products = fetchRequiredProducts(orderLines)
         val requiredArticlesQuantities = calculateTotalQuantitiesPerOrder(orderLines, products)

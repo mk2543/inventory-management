@@ -75,7 +75,7 @@ class ArticleInventoryServiceImplTest {
         articleInventoryService.saveArticles(requests)
 
         // then
-        val currentInventory = articleInventoryRepository.findQuantityByArticleIds(
+        val currentInventory = articleInventoryRepository.findInventoryByArticleIds(
             Fixtures.warehouseId,
             setOf(Fixtures.tableLegId, Fixtures.whiteTableSurfaceId)
         )
@@ -100,9 +100,9 @@ class ArticleInventoryServiceImplTest {
 
         // then
         val currentInventoryInFirstWarehouse =
-            articleInventoryRepository.findQuantityByArticleIds(Fixtures.warehouseId, setOf(Fixtures.tableLegId))
+            articleInventoryRepository.findInventoryByArticleIds(Fixtures.warehouseId, setOf(Fixtures.tableLegId))
         val currentInventoryInSecondWarehouse =
-            articleInventoryRepository.findQuantityByArticleIds(Fixtures.anotherWarehouseId, setOf(Fixtures.tableLegId))
+            articleInventoryRepository.findInventoryByArticleIds(Fixtures.anotherWarehouseId, setOf(Fixtures.tableLegId))
 
         assertThat(currentInventoryInFirstWarehouse[Fixtures.tableLegId]?.quantity).isEqualTo(10)
         assertThat(currentInventoryInSecondWarehouse[Fixtures.tableLegId]?.quantity).isEqualTo(20)
@@ -127,7 +127,7 @@ class ArticleInventoryServiceImplTest {
 
         // then
         val currentInventory =
-            articleInventoryRepository.findQuantityByArticleIds(Fixtures.warehouseId, setOf(Fixtures.tableLegId))
+            articleInventoryRepository.findInventoryByArticleIds(Fixtures.warehouseId, setOf(Fixtures.tableLegId))
 
         assertThat(currentInventory[Fixtures.tableLegId]?.quantity).isEqualTo(10)
     }
@@ -144,7 +144,7 @@ class ArticleInventoryServiceImplTest {
         articleInventoryService.updateArticleInventory(Fixtures.warehouseId, inventoryDeltaChanges)
 
         // then
-        val currentInventory = articleInventoryRepository.findQuantityByArticleIds(
+        val currentInventory = articleInventoryRepository.findInventoryByArticleIds(
             Fixtures.warehouseId,
             setOf(Fixtures.tableLegId, Fixtures.whiteTableSurfaceId)
         )
@@ -162,7 +162,7 @@ class ArticleInventoryServiceImplTest {
         articleInventoryService.updateArticleInventory(Fixtures.warehouseId, inventoryDeltaChanges)
 
         // then
-        val currentInventory = articleInventoryRepository.findQuantityByArticleIds(Fixtures.warehouseId, setOf(Fixtures.tableLegId))
+        val currentInventory = articleInventoryRepository.findInventoryByArticleIds(Fixtures.warehouseId, setOf(Fixtures.tableLegId))
 
         assertThat(currentInventory[Fixtures.tableLegId]?.quantity).isEqualTo(3)
     }

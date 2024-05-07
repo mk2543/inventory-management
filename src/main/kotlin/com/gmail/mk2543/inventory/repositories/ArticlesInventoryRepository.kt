@@ -6,7 +6,7 @@ import com.gmail.mk2543.inventory.domain.models.WarehouseId
 
 interface ArticlesInventoryRepository {
 
-    fun findQuantityByArticleIds(warehouseId: WarehouseId, ids: Collection<ArticleId>): Map<ArticleId, ArticleInventory>
+    fun findInventoryByArticleIds(warehouseId: WarehouseId, ids: Collection<ArticleId>): Map<ArticleId, ArticleInventory>
 
     fun save(inventory: ArticleInventory)
 

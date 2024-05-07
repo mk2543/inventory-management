@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional
 class JooqArticlesInventoryRepository(private val dslContext: DSLContext) : ArticlesInventoryRepository {
 
     @Transactional(readOnly = true)
-    override fun findQuantityByArticleIds(
+    override fun findInventoryByArticleIds(
         warehouseId: WarehouseId,
         ids: Collection<ArticleId>
     ): Map<ArticleId, ArticleInventory> {

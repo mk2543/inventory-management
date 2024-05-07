@@ -40,7 +40,7 @@ class WarehouseSyncControllerTests : AbstractTest() {
         val articlesInDb = articlesRepository.getAll()
         assertThat(articlesInDb).hasSize(4)
 
-        val inventoryInDb = articlesInventoryRepository.findQuantityByArticleIds(WarehouseId(1), articlesInDb.keys)
+        val inventoryInDb = articlesInventoryRepository.findInventoryByArticleIds(WarehouseId(1), articlesInDb.keys)
         assertThat(inventoryInDb).hasSize(4)
     }
 }

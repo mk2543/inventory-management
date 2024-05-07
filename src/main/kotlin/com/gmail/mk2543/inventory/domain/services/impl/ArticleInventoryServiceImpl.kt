@@ -36,13 +36,13 @@ class ArticleInventoryServiceImpl(
 
     @Transactional(readOnly = true)
     override fun fetchCurrentInventory(warehouseId: WarehouseId, articleIds: Set<ArticleId>): Map<ArticleId, Int> {
-        val stock = articlesInventoryRepository.findQuantityByArticleIds(warehouseId, articleIds)
-        return articleIds.associateWith { stock[it]?.quantity ?: 0 }
+        val inventory = articlesInventoryRepository.findInventoryByArticleIds(warehouseId, articleIds)
+        return articleIds.associateWith { inventory[it]?.quantity ?: 0 }
     }
 
     @Transactional
     override fun updateArticleInventory(warehouseId: WarehouseId, inventoryDeltaChanges: Map<ArticleId, Int>) {
-        val currentInventory = articlesInventoryRepository.findQuantityByArticleIds(warehouseId, inventoryDeltaChanges.keys)
+        val currentInventory = articlesInventoryRepository.findInventoryByArticleIds(warehouseId, inventoryDeltaChanges.keys)
         val inventoryToUpdate = inventoryDeltaChanges.map { (articleId, quantityDelta) ->
             val articleInventory = currentInventory[articleId] ?: ArticleInventory(articleId, warehouseId, 0, 0)
             val newInventory = articleInventory.quantity + quantityDelta
@@ -56,7 +56,7 @@ class ArticleInventoryServiceImpl(
     }
 
     private fun overrideArticleInventory(warehouseId: WarehouseId, inventoryOverrides: Map<ArticleId, Int>) {
-        val currentInventory = articlesInventoryRepository.findQuantityByArticleIds(warehouseId, inventoryOverrides.keys)
+        val currentInventory = articlesInventoryRepository.findInventoryByArticleIds(warehouseId, inventoryOverrides.keys)
         val articleInventoryToUpdate = inventoryOverrides.map { (articleId, newQuantity) ->
             val articleInventory = currentInventory[articleId] ?: ArticleInventory(articleId, warehouseId, 0, 0)
             articleInventory.copy(quantity = newQuantity)
